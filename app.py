@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 from langchain.prompts.prompt import PromptTemplate
 import requests
 from dotenv import load_dotenv
+from langchain.vectorstores import Chroma
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -53,7 +54,7 @@ def process():
         
         if not os.path.isfile(f"embeddings/cg_infinity_bot_doc.pdf.pkl"):
             embeddings = OpenAIEmbeddings()
-            db = FAISS.from_texts(chunks, embeddings)
+            db = Chroma.from_texts(chunks, embeddings)
             with open(f"embeddings/cg_infinity_bot_doc.pdf.pkl", "wb") as f:
                 pickle.dump(db,f)
         db = ""
