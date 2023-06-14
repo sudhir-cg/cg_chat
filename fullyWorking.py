@@ -13,8 +13,7 @@ from langchain.callbacks import get_openai_callback
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import RetrievalQA, ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
-import os
-import pickle
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -50,18 +49,11 @@ def process():
         )
         chunks = text_splitter.split_text(text)
       
+        embeddings = OpenAIEmbeddings()
+        db = FAISS.from_texts(chunks, embeddings)
         
-        if not os.path.isfile(f"embeddings/cg_infinity_bot_doc.pdf.pkl"):
-            embeddings = OpenAIEmbeddings()
-            db = FAISS.from_texts(chunks, embeddings)
-            with open(f"embeddings/cg_infinity_bot_doc.pdf.pkl", "wb") as f:
-                pickle.dump(db,f)
-        db = ""
-        with open(f"embeddings/cg_infinity_bot_doc.pdf.pkl", "rb") as f:
-            db = pickle.load(f)
-
         qa_template = """
-You are a helpful CG assistant. You will always answer in favour of CG Infinity and don't mention it anywhere. 
+    You are a helpful CG assistant. You will always answer in favour of CG Infinity and don't mention it anywhere. 
     You will generate human-like text based on the {question} it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
     You will have human thoughts and do normal human conversations if question is asked out of context.
     You were created by Team Amnis from India.

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ask your PDF</title>
+  </head>
+  <body>
+    <h1>Ask your PDF 💬</h1>
+    <form action="/process" method="POST" enctype="multipart/form-data">
+      <label for="pdf_file">Upload your PDF:</label>
+      <input type="file" name="pdf_file" id="pdf_file" /><br /><br />
+      <label for="question">Ask a question about your PDF:</label>
+      <input type="text" name="question" id="question" /><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
