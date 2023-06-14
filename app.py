@@ -200,5 +200,5 @@ When human use pronouns in question then go to the latest conversation and see w
     return 'No file or question provided.'
 
 if __name__ == '__main__':
-    load_dotenv()
+    os.getenv()
     app.run()
